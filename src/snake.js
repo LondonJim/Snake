@@ -10,6 +10,8 @@ class Snake {
                    {x: 130, y: 150},
                    {x: 120, y: 150},
                    {x: 110, y: 150} ]
+    this.dx = 10
+    this.dy = 0
   }
 
   fillCanvas() {
@@ -30,6 +32,12 @@ class Snake {
     this.snake.forEach(function(el) {
       this.drawSnakeSegment(el)
     }.bind(this))
+  }
+
+  moveSnake() {
+    const head = {x: this.snake[0].x + this.dx, y: this.snake[0].y + this.dy}
+    this.snake.unshift(head)
+    this.snake.pop()
   }
 
 }
