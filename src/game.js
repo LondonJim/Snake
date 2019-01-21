@@ -10,11 +10,14 @@ class Game {
                    {x: 110, y: 150} ]
     this.dx = 10
     this.dy = 0
+    this.speed = 100
+    this.score = 0
+    this.changingDirection = false
     this.makeFood()
   }
 
   fillCanvas() {
-    this.ctx.fillStyle = 'white'
+    this.ctx.fillStyle = 'grey'
     this.ctx.strokestyle = 'black'
     this.ctx.fillRect(0, 0, this.gameCanvas.width, this.gameCanvas.height)
     this.ctx.strokeRect(0, 0, this.gameCanvas.width, this.gameCanvas.height)
@@ -22,7 +25,7 @@ class Game {
 
   drawSnakeSegment(snakePart) {
     this.ctx.fillStyle = 'lightgreen'
-    this.ctx.strokestyle = 'darkgreen'
+    this.ctx.strokestyle = 'green'
     this.ctx.fillRect(snakePart.x, snakePart.y, 10, 10)
     this.ctx.strokeRect(snakePart.x, snakePart.y, 10, 10)
   }
@@ -41,6 +44,9 @@ class Game {
 
     if (eatFood) {
       this.makeFood()
+      this.speed -= 1
+      this.score += 1
+      document.getElementById('score_number').innerHTML = this.score
     } else {
       this.snake.pop()
     }
@@ -56,6 +62,9 @@ class Game {
     const RIGHT_KEY = 39
     const UP_KEY = 38
     const DOWN_KEY = 40
+
+    if (this.changingDirection) return
+    this.changingDirection = true
 
     const keyPressed = event.keyCode
     const goingUp = this.dy === -10
@@ -96,12 +105,11 @@ class Game {
     this.snake.forEach(function(part) {
       const foodIsOnSnake = (part.x == this.foodX) && (part.y == this.foodY)
       if (foodIsOnSnake)
-        makeFood()
+        this.makeFood()
     }.bind(this))
   }
 
   drawFood() {
-    console.log(this.foodX, this.foodY)
     this.ctx.fillStyle = 'red'
     this.ctx.strokestyle = 'darkred'
     this.ctx.fillRect(this.foodX, this.foodY, 10, 10)
@@ -123,7 +131,5 @@ class Game {
 
     return hitLeft || hitRight || hitTop || hitBottom
   }
-
-
 
 }

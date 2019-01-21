@@ -12,12 +12,13 @@ class Play {
   main(){
     setTimeout(function onTick() {
       if (this.game.endCheck()) return
+      this.game.changingDirection = false
       this.game.fillCanvas()
       this.game.drawFood()
       this.game.moveSnake()
       this.game.drawSnake()
       this.main()
-    }.bind(this), 100)
+    }.bind(this), this.game.speed)
   }
 
 }

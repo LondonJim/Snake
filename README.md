@@ -1,5 +1,9 @@
 # Snake in JavaScript
 
+Run `index.html` and path into browser to run or use something like `http-server` in game directory.
+
+Arrow keys to control, don't hit the wall or yourself! One point for every food dot eaten. The game speeds up for every food dot eaten. 
+
 ##### Player Stories
 
 ```
