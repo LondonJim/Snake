@@ -12,7 +12,6 @@ class Game {
                    {x: 110, y: 150} ]
     this.dx = 10
     this.dy = 0
-    this.direction = 'right'
     this.speed = 100
     this.score = 0
     this.changingDirection = false
@@ -138,27 +137,22 @@ class Game {
     if(keyPressed === LEFT_KEY && !goingRight) {
       this.dx = -10
       this.dy = 0
-      this.direction = "left"
     }
 
     if(keyPressed === UP_KEY && !goingDown) {
       this.dx = 0
       this.dy = -10
-      this.direction = "up"
     }
 
     if(keyPressed === RIGHT_KEY && !goingLeft) {
       this.dx = 10
       this.dy = 0
-      this.direction = "right"
     }
-
+    
     if(keyPressed === DOWN_KEY && !goingUp) {
       this.dx = 0
       this.dy = 10
-      this.direction = "down"
     }
-
   }
 
   randomGen(min, max) {
