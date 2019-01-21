@@ -3,6 +3,8 @@ class Game {
   constructor() {
     this.gameCanvas = document.getElementById("gameCanvas")
     this.ctx = this.gameCanvas.getContext("2d")
+    this.snakeSprites = new Image()
+    this.snakeSprites.src = "./img/snake-graphics.png"
     this.snake = [ {x: 150, y: 150},
                    {x: 140, y: 150},
                    {x: 130, y: 150},
@@ -10,6 +12,7 @@ class Game {
                    {x: 110, y: 150} ]
     this.dx = 10
     this.dy = 0
+    this.direction = 'right'
     this.speed = 100
     this.score = 0
     this.changingDirection = false
@@ -17,23 +20,69 @@ class Game {
   }
 
   fillCanvas() {
-    this.ctx.fillStyle = 'grey'
+    this.ctx.fillStyle = 'white'
     this.ctx.strokestyle = 'black'
     this.ctx.fillRect(0, 0, this.gameCanvas.width, this.gameCanvas.height)
     this.ctx.strokeRect(0, 0, this.gameCanvas.width, this.gameCanvas.height)
   }
 
-  drawSnakeSegment(snakePart) {
-    this.ctx.fillStyle = 'lightgreen'
-    this.ctx.strokestyle = 'green'
-    this.ctx.fillRect(snakePart.x, snakePart.y, 10, 10)
-    this.ctx.strokeRect(snakePart.x, snakePart.y, 10, 10)
+  drawSnakeSegment(snakePart, index) {
+    let partX = this.snake[index].x
+    let partY = this.snake[index].y
+    let spriteX
+    let spriteY
+
+    if (this.snake[0] === this.snake[index]) {
+        let partNext = this.snake[index + 1]
+        if (partY < partNext.y) {
+          spriteX = 30; spriteY = 0
+        } else if (partX > partNext.x) {
+          spriteX = 40; spriteY = 0
+        } else if (partY > partNext.y) {
+          spriteX = 40; spriteY = 10
+        } else if (partX < partNext.x) {
+          spriteX = 30; spriteY = 10
+        }
+
+    } else if (this.snake[this.snake.length - 1] === this.snake[index]) {
+        let partPrev = this.snake[index - 1]
+        if (partPrev.y < partY) {
+          spriteX = 30; spriteY = 20
+        } else if (partPrev.x > partX) {
+          spriteX = 40; spriteY = 20
+        } else if (partPrev.y > partY) {
+          spriteX = 40; spriteY = 30
+        } else if (partPrev.x < partX) {
+          spriteX = 30; spriteY = 30
+        }
+
+    } else {
+        let partPrev = this.snake[index - 1]
+        let partNext = this.snake[index + 1]
+
+        if ((partNext.x > partX) && (partPrev.y > partY) || (partNext.y > partY) && (partPrev.x > partX)) {
+            spriteX = 0 ; spriteY = 0
+        } else if ((partNext.x < partX) && (partPrev.y < partY) || (partNext.y < partY) && (partPrev.x < partX)) {
+            spriteX = 20 ; spriteY = 20
+        } else if ((partNext.x > partX) && (partPrev.y < partY) || (partNext.y < partY) && (partPrev.x > partX)) {
+            spriteX = 0 ; spriteY = 10
+        } else if ((partNext.x < partX) && (partPrev.y > partY) || (partNext.y > partY) && (partPrev.x < partX)) {
+            spriteX = 20 ; spriteY = 0
+        } else if ((partNext.x > partX) && (partPrev.x > partX) || (partNext.y > partY) && (partPrev.x < partX)) {
+            spriteX = 20 ; spriteY = 0
+        } else if ((partNext.x > partX) && (partPrev.x < partX) || (partPrev.x > partX) && (partNext.x < partX)) {
+            spriteX = 10 ; spriteY = 0
+        } else if ((partNext.y < partY) && (partPrev.y > partY) || (partPrev.y < partY) && (partNext.y > partY)) {
+            spriteX = 20 ; spriteY = 10
+        }
+    }
+    this.ctx.drawImage(this.snakeSprites, spriteX, spriteY, 10, 10, partX, partY, 10, 10)
   }
 
   drawSnake() {
-    this.snake.forEach(function(el) {
-      this.drawSnakeSegment(el)
-    }.bind(this))
+    for (let i = 0; i < this.snake.length; i++) {
+      this.drawSnakeSegment(this.snake[i], i)
+    }
   }
 
   moveSnake() {
@@ -75,21 +124,25 @@ class Game {
     if(keyPressed === LEFT_KEY && !goingRight) {
       this.dx = -10
       this.dy = 0
+      this.direction = "left"
     }
 
     if(keyPressed === UP_KEY && !goingDown) {
       this.dx = 0
       this.dy = -10
+      this.direction = "up"
     }
 
     if(keyPressed === RIGHT_KEY && !goingLeft) {
       this.dx = 10
       this.dy = 0
+      this.direction = "right"
     }
 
     if(keyPressed === DOWN_KEY && !goingUp) {
       this.dx = 0
       this.dy = 10
+      this.direction = "down"
     }
 
   }
@@ -110,10 +163,7 @@ class Game {
   }
 
   drawFood() {
-    this.ctx.fillStyle = 'red'
-    this.ctx.strokestyle = 'darkred'
-    this.ctx.fillRect(this.foodX, this.foodY, 10, 10)
-    this.ctx.strokeRect(this.foodX, this.foodY, 10, 10)
+    this.ctx.drawImage(this.snakeSprites, 0, 30, 10, 10, this.foodX, this.foodY, 10, 10)
   }
 
   endCheck() {
