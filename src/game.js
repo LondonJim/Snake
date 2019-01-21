@@ -35,7 +35,15 @@ class Game {
   moveSnake() {
     const head = {x: this.snake[0].x + this.dx, y: this.snake[0].y + this.dy}
     this.snake.unshift(head)
-    this.snake.pop()
+
+    const eatFood = this.snake[0].x === this.foodX && this.snake[0].y === this.foodY
+
+    if (eatFood) {
+      this.makeFood()
+    } else {
+      this.snake.pop()
+    }
+
   }
 
   keyCheck() {
@@ -81,14 +89,10 @@ class Game {
   }
 
   makeFood() {
-    console.log("make food")
     this.foodX = this.randomGen(0, this.gameCanvas.width - 10)
     this.foodY = this.randomGen(0, this.gameCanvas.height - 10)
 
-    console.log(this.foodX, this.foodY)
-
     this.snake.forEach(function(part) {
-      console.log(this.foodX, this.foodY, part)
       const foodIsOnSnake = (part.x == this.foodX) && (part.y == this.foodY)
       if (foodIsOnSnake)
         makeFood()
@@ -96,10 +100,8 @@ class Game {
   }
 
   drawFood() {
-    console.log('draw food')
     this.ctx.fillStyle = 'red'
     this.ctx.strokestyle = 'darkred'
-    console.log(this.foodX, this.foodY)
     this.ctx.fillRect(this.foodX, this.foodY, 10, 10)
     this.ctx.strokeRect(this.foodX, this.foodY, 10, 10)
   }
