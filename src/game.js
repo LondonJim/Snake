@@ -19,7 +19,7 @@ class Game {
   }
 
   fillCanvas() {
-    this.ctx.fillStyle = 'white'
+    this.ctx.fillStyle = 'lightyellow'
     this.ctx.strokestyle = 'black'
     this.ctx.fillRect(0, 0, this.gameCanvas.width, this.gameCanvas.height)
     this.ctx.strokeRect(0, 0, this.gameCanvas.width, this.gameCanvas.height)
@@ -148,7 +148,7 @@ class Game {
       this.dx = 10
       this.dy = 0
     }
-    
+
     if(keyPressed === DOWN_KEY && !goingUp) {
       this.dx = 0
       this.dy = 10

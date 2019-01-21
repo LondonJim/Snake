@@ -2,7 +2,7 @@
 
 Run `index.html` and path into browser to run or use something like `http-server` in game directory.
 
-Arrow keys to control, don't hit the wall or yourself! One point for every food dot eaten. The game speeds up for every food dot eaten. 
+Arrow keys to control, don't hit the wall or yourself! One point for every food dot eaten. The game speeds up for every food dot eaten.
 
 ##### Player Stories
 
@@ -39,3 +39,5 @@ As a player of Snake,
 So that it becomes even more challenging,
 I want the snake’s speed to increase over time
 ```
+
+![Image description](./img/screen_shot.png)
