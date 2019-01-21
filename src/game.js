@@ -26,33 +26,43 @@ class Game {
     this.ctx.strokeRect(0, 0, this.gameCanvas.width, this.gameCanvas.height)
   }
 
-  drawSnakeSegment(snakePart, index) {
+  drawSnakeSegment(index) {
     let partX = this.snake[index].x
     let partY = this.snake[index].y
     let spriteX
     let spriteY
 
     if (this.snake[0] === this.snake[index]) {
+        // Head
         let partNext = this.snake[index + 1]
         if (partY < partNext.y) {
+          // facing up
           spriteX = 30; spriteY = 0
         } else if (partX > partNext.x) {
+          // facing right
           spriteX = 40; spriteY = 0
         } else if (partY > partNext.y) {
+          // facing down
           spriteX = 40; spriteY = 10
         } else if (partX < partNext.x) {
+          // facing left
           spriteX = 30; spriteY = 10
         }
 
     } else if (this.snake[this.snake.length - 1] === this.snake[index]) {
+        // Tail
         let partPrev = this.snake[index - 1]
         if (partPrev.y < partY) {
+          // snake travelling up
           spriteX = 30; spriteY = 20
         } else if (partPrev.x > partX) {
+          // snake travelling right
           spriteX = 40; spriteY = 20
         } else if (partPrev.y > partY) {
+          // snake travelling down
           spriteX = 40; spriteY = 30
         } else if (partPrev.x < partX) {
+          // snake travelling left
           spriteX = 30; spriteY = 30
         }
 
@@ -61,18 +71,22 @@ class Game {
         let partNext = this.snake[index + 1]
 
         if ((partNext.x > partX) && (partPrev.y > partY) || (partNext.y > partY) && (partPrev.x > partX)) {
+            // down and right corner
             spriteX = 0 ; spriteY = 0
         } else if ((partNext.x < partX) && (partPrev.y < partY) || (partNext.y < partY) && (partPrev.x < partX)) {
+            // up and left corner
             spriteX = 20 ; spriteY = 20
         } else if ((partNext.x > partX) && (partPrev.y < partY) || (partNext.y < partY) && (partPrev.x > partX)) {
+            // up and right corner
             spriteX = 0 ; spriteY = 10
         } else if ((partNext.x < partX) && (partPrev.y > partY) || (partNext.y > partY) && (partPrev.x < partX)) {
-            spriteX = 20 ; spriteY = 0
-        } else if ((partNext.x > partX) && (partPrev.x > partX) || (partNext.y > partY) && (partPrev.x < partX)) {
+            // down and left corner
             spriteX = 20 ; spriteY = 0
         } else if ((partNext.x > partX) && (partPrev.x < partX) || (partPrev.x > partX) && (partNext.x < partX)) {
+            // straight vertical
             spriteX = 10 ; spriteY = 0
         } else if ((partNext.y < partY) && (partPrev.y > partY) || (partPrev.y < partY) && (partNext.y > partY)) {
+            // straight horizontal
             spriteX = 20 ; spriteY = 10
         }
     }
@@ -81,7 +95,7 @@ class Game {
 
   drawSnake() {
     for (let i = 0; i < this.snake.length; i++) {
-      this.drawSnakeSegment(this.snake[i], i)
+      this.drawSnakeSegment(i)
     }
   }
 
