@@ -7,11 +7,11 @@ class Play {
   start(){
     this.game.keyCheck()
     this.main()
-    this.game.makeFood()
   }
 
   main(){
     setTimeout(function onTick() {
+      if (this.game.endCheck()) return
       this.game.fillCanvas()
       this.game.drawFood()
       this.game.moveSnake()

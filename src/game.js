@@ -10,6 +10,7 @@ class Game {
                    {x: 110, y: 150} ]
     this.dx = 10
     this.dy = 0
+    this.makeFood()
   }
 
   fillCanvas() {
@@ -100,10 +101,27 @@ class Game {
   }
 
   drawFood() {
+    console.log(this.foodX, this.foodY)
     this.ctx.fillStyle = 'red'
     this.ctx.strokestyle = 'darkred'
     this.ctx.fillRect(this.foodX, this.foodY, 10, 10)
     this.ctx.strokeRect(this.foodX, this.foodY, 10, 10)
+  }
+
+  endCheck() {
+    for (let i = 4; i < this.snake.length; i++) {
+      const collide = (this.snake[i].x === this.snake[0].x) &&
+        (this.snake[i].y === this.snake[0].y)
+
+      if (collide) return true
+    }
+
+    const hitLeft = this.snake[0].x < 0
+    const hitRight = this.snake[0].x > this.gameCanvas.width - 10
+    const hitTop = this.snake[0].y < 0
+    const hitBottom = this.snake[0].y > this.gameCanvas.height - 10
+
+    return hitLeft || hitRight || hitTop || hitBottom
   }
 
 
